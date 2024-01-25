@@ -73,6 +73,6 @@ stages:
           - task: PublishPipelineArtifact@1
             displayName: Publish Files in Pipeline
             inputs:
-              targetPath: '$(System.DefaultWorkingDirectory)/contoso'
+              targetPath: '$(System.DefaultWorkingDirectory)/ms365ent'
               artifact: 'contoso-out'
               publishLocation: 'pipeline'        
