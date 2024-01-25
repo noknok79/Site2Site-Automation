@@ -82,7 +82,7 @@ stages:
               scriptType: 'bash'
               scriptLocation: 'inlineScript'
               inlineScript: |
-                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvnet1
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvnet1.bicep
                 az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1-ip.bicep
                 az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1-nsg.bicep
                 az deployment group what-if --resource-group test-bicep-rg --template-file contosovm1-nsg.bicep
