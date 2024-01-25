@@ -22,8 +22,23 @@ stages:
               artifact: 'contoso-out'
               publishLocation: 'pipeline'
 
-          - task: PublishBuildArtifacts@1
+          - task: AzureCLI@2
             inputs:
-              PathtoPublish: '$(Build.ArtifactStagingDirectory)/contoso'
-              ArtifactName: 'drop'
-              publishLocation: 'Container'
+              azureSubscription: 'contoso-test-bicep-rg-connection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az deployment group what-if --resource-group test-bicep-rg --template-file publicip2.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file publicip3.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file contosovnet1.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file contosovm1-ip.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file contosovm1-nsg.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file contosovm1402.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file contosovm1.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file contosovm1_OsDisk_1_8c2c78cabbab408fa190353d86b1fc56.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file contosovnet1-bastion.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file locgateway.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file contosovirtnetgw.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file s2s-connect-to-ms365ent.bicep
+              workingDirectory: '$(System.DefaultWorkingDirectory)/contoso'
+
