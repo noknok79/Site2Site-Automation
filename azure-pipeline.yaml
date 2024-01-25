@@ -14,6 +14,8 @@ stages:
     jobs:
       - job: DeployResources
         steps:
+
+
           - task: PublishPipelineArtifact@1
             inputs:
               targetPath: '$(System.DefaultWorkingDirectory)/contoso'
@@ -25,39 +27,3 @@ stages:
               PathtoPublish: '$(Build.ArtifactStagingDirectory)'
               ArtifactName: 'drop'
               publishLocation: 'Container'
-
-          - task: AzureCLI@2
-            displayName: Deploy Subnet/GatewaySubnet
-            inputs:
-              azureSubscription: "contoso-serviceconnection"
-              scriptType: "bash"
-              scriptLocation: "inlineScript"
-              inlineScript: |
-                az network vnet create \
-                          --name contosovnet1 \
-                          --resource-group test-network-rg \
-                          --address-prefixes 10.0.0.0/16 \
-                          --subnet-name subnet1-contoso \
-                          --subnet-prefixes 10.0.0.0/27
-
-                az network vnet subnet create \
-                          --name GatewaySubnet \
-                          --resource-group test-network-rg \
-                          --vnet-name contosovnet1 \
-                          --address-prefixes 10.0.0.32/27
-
-                az network public-ip create \
-                                --name publicip2 \
-                                --resource-group test-network-rg \
-                                --location eastus \
-                                --sku Standard \
-
-                az network public-ip create \
-                                --name publicip3 \
-                                --resource-group test-network-rg \
-                                --location eastus \
-                                --sku Standard \
-
-                az network local-gateway create -g test-network-rg -n contosolocgw --gateway-ip-address 20.164.37.21 --local-address-prefixes 192.168.0.0/24 172.16.0.0/24
-
-                az network vnet-gateway create --gateway-type Vpn --location eastus --name contosovnetgw --no-wait --gateway-default-site contosolocgw --public-ip-addresses publicip2 publicip3 --resource-group test-network-rg --sku VpnGw1 --vnet contosovnet1 --client-protocol IkeV2 --vpn-type RouteBased
