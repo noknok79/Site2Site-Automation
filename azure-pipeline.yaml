@@ -30,8 +30,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - task: PublishPipelineArtifact@1 
-                  displayName: Publish Files in Pipeline
+                - task: PublishPipelineArtifact@1
                   inputs:
                     targetPath: '$(System.DefaultWorkingDirectory)/contoso'
                     artifact: 'contoso-out'
@@ -90,13 +89,11 @@ stages:
           runOnce:
             deploy:
               steps:
-                - task: PublishPipelineArtifact@1 
-                  displayName: Publish Files in Pipeline
+                - task: PublishPipelineArtifact@1
                   inputs:
                     targetPath: '$(System.DefaultWorkingDirectory)/ms365ent'
                     artifact: 'ms365ent-out'
                     publishLocation: 'pipeline'
-          
 
                 - task: AzureCLI@2
                   displayName: What-If Resources
