@@ -16,7 +16,7 @@ resource disks_contosovm1_OsDisk_1_8c2c78cabbab408fa190353d86b1fc56_name_resourc
   properties: {
     osType: 'Windows'
     hyperVGeneration: 'V2'
-    supportsHibernation: true
+    //supportsHibernation: false
     supportedCapabilities: {
       diskControllerTypes: 'SCSI, NVMe'
       acceleratedNetwork: true
