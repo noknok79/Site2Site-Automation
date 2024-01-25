@@ -311,7 +311,7 @@ resource networkInterfaces_contosovm1402_name_resource 'Microsoft.Network/networ
     ipConfigurations: [
       {
         name: 'ipconfig1'
-        //id: '${networkInterfaces_contosovm1402_name_resource.id}/ipConfigurations/ipconfig1'
+        id: '${networkInterfaces_contosovm1402_name_resource.id}/ipConfigurations/ipconfig1'
         etag: 'W/"d09ee52a-d5c6-43ee-92a6-26802398cb9d"'
         type: 'Microsoft.Network/networkInterfaces/ipConfigurations'
         properties: {
@@ -325,7 +325,7 @@ resource networkInterfaces_contosovm1402_name_resource 'Microsoft.Network/networ
             }
           }
           subnet: {
-            //id: '${virtualNetworks_contosovnet1_externalid}/subnets/subnet1-contoso'
+            id: '${virtualNetworks_contosovnet1_externalid}/subnets/subnet1-contoso'
           }
           primary: true
           privateIPAddressVersion: 'IPv4'
@@ -457,14 +457,14 @@ resource virtualNetworkGateways_contosovirtnetgw_name_resource 'Microsoft.Networ
     ipConfigurations: [
       {
         name: 'default'
-        //id: '${virtualNetworkGateways_contosovirtnetgw_name_resource.id}/ipConfigurations/default'
+        id: '${virtualNetworkGateways_contosovirtnetgw_name_resource.id}/ipConfigurations/default'
         properties: {
           privateIPAllocationMethod: 'Dynamic'
           publicIPAddress: {
             id: publicIPAddresses_publicip2_externalid
           }
           subnet: {
-            //id: '${virtualNetworks_contosovnet1_externalid}/subnets/GatewaySubnet'
+            id: '${virtualNetworks_contosovnet1_externalid}/subnets/GatewaySubnet'
           }
         }
       }
@@ -477,7 +477,7 @@ resource virtualNetworkGateways_contosovirtnetgw_name_resource 'Microsoft.Networ
             id: publicIPAddresses_publicip3_externalid
           }
           subnet: {
-            //id: '${virtualNetworks_contosovnet1_externalid}/subnets/GatewaySubnet'
+            id: '${virtualNetworks_contosovnet1_externalid}/subnets/GatewaySubnet'
           }
         }
       }
