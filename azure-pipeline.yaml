@@ -74,5 +74,41 @@ stages:
             displayName: Publish Files in Pipeline
             inputs:
               targetPath: '$(System.DefaultWorkingDirectory)/ms365ent'
-              artifact: 'contoso-out'
+              artifact: 'ms365ent-out'
               publishLocation: 'pipeline'        
+          
+
+          - task: AzureCLI@2
+            displayName: What-If Resources
+            inputs:
+              azureSubscription: 'ms365ent-test-bicep-rg-connection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvnet1
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1-ip.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1-nsg.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file contosovm1-nsg.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1478.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvnet1-bastion-ip.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file  ms365entvnet1-Bastion.bicep
+              workingDirectory: '$(System.DefaultWorkingDirectory)/ms365ent'
+            
+
+          - task: AzureCLI@2
+            displayName: Create Resources
+            inputs:
+              azureSubscription: 'ms365ent-test-bicep-rg-connection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvnet1
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvm1-ip.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvm1-nsg.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file contosovm1-nsg.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvm1478.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvm1.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvnet1-bastion-ip.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file  ms365entvnet1-Bastion.bicep
+              workingDirectory: '$(System.DefaultWorkingDirectory)/ms365ent'
