@@ -14,9 +14,8 @@ stages:
     jobs:
       - job: DeployResources
         steps:
-
-
           - task: PublishPipelineArtifact@1
+            continueOnError: true
             displayName: Publish Files in Pipeline
             inputs:
               targetPath: '$(System.DefaultWorkingDirectory)/contoso'
@@ -68,8 +67,6 @@ stages:
     jobs:
       - job: DeployResources
         steps:
-
-
           - task: PublishPipelineArtifact@1
             displayName: Publish Files in Pipeline
             inputs:
