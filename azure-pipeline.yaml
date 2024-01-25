@@ -57,10 +57,22 @@ stages:
                 az deployment group create --resource-group test-bicep-rg --template-file contosovm1-nsg.bicep
                 az deployment group create --resource-group test-bicep-rg --template-file contosovm1402.bicep
                 az deployment group create --resource-group test-bicep-rg --template-file contosovm1.bicep
-                az deployment group create --resource-group test-bicep-rg --template-file contosovm1_OsDisk_1_8c2c78cabbab408fa190353d86b1fc56.bicep
                 az deployment group create --resource-group test-bicep-rg --template-file contosovnet1-bastion.bicep
                 az deployment group create --resource-group test-bicep-rg --template-file locgateway.bicep
                 az deployment group create --resource-group test-bicep-rg --template-file contosovirtnetgw.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file contosovm1_OsDisk_1_8c2c78cabbab408fa190353d86b1fc56.bicep
                 az deployment group create --resource-group test-bicep-rg --template-file s2s-connect-to-ms365ent.bicep
               workingDirectory: '$(System.DefaultWorkingDirectory)/contoso'
-            
+
+  - stage: DeployResourceInMS365Ent
+    jobs:
+      - job: DeployResources
+        steps:
+
+
+          - task: PublishPipelineArtifact@1
+            displayName: Publish Files in Pipeline
+            inputs:
+              targetPath: '$(System.DefaultWorkingDirectory)/contoso'
+              artifact: 'contoso-out'
+              publishLocation: 'pipeline'        
