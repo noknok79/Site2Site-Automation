@@ -2,9 +2,9 @@
 param location string = 'southeastasia'
 
 param networkInterfaces_ms365entvm1478_name string = 'ms365entvm1478'
-param publicIPAddresses_ms365entvm1_ip_externalid string = '/subscriptions/6cfaa4da-a4b7-4bbe-91ba-2c23438b894c/resourceGroups/test-network-rg/providers/Microsoft.Network/publicIPAddresses/ms365entvm1-ip'
-//param virtualNetworks_ms365entvnet1_externalid string = '/subscriptions/6cfaa4da-a4b7-4bbe-91ba-2c23438b894c/resourceGroups/test-network-rg/providers/Microsoft.Network/virtualNetworks/ms365entvnet1'
-param networkSecurityGroups_ms365entvm1_nsg_externalid string = '/subscriptions/6cfaa4da-a4b7-4bbe-91ba-2c23438b894c/resourceGroups/test-network-rg/providers/Microsoft.Network/networkSecurityGroups/ms365entvm1-nsg'
+param publicIPAddresses_ms365entvm1_ip_externalid string = '/subscriptions/6cfaa4da-a4b7-4bbe-91ba-2c23438b894c/resourceGroups/test-bicep-rg/providers/Microsoft.Network/publicIPAddresses/ms365entvm1-ip'
+param virtualNetworks_ms365entvnet1_externalid string = '/subscriptions/6cfaa4da-a4b7-4bbe-91ba-2c23438b894c/resourceGroups/test-bicep-rg/providers/Microsoft.Network/virtualNetworks/ms365entvnet1'
+param networkSecurityGroups_ms365entvm1_nsg_externalid string = '/subscriptions/6cfaa4da-a4b7-4bbe-91ba-2c23438b894c/resourceGroups/test-bicep-rg/providers/Microsoft.Network/networkSecurityGroups/ms365entvm1-nsg'
 
 resource networkInterfaces_ms365entvm1478_name_resource 'Microsoft.Network/networkInterfaces@2023-06-01' = {
   name: networkInterfaces_ms365entvm1478_name
@@ -31,7 +31,7 @@ resource networkInterfaces_ms365entvm1478_name_resource 'Microsoft.Network/netwo
             }
           }
           subnet: {
-            //id: '${virtualNetworks_ms365entvnet1_externalid}/subnets/subnet1-ms365ent'
+            id: '${virtualNetworks_ms365entvnet1_externalid}/subnets/subnet1-ms365ent'
           }
           primary: true
           privateIPAddressVersion: 'IPv4'

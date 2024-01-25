@@ -1,9 +1,10 @@
 @description('Specifies the location for resources.')
 param location string = 'southeastasia'
 param adminUsername string = 'azureuser'
+param adminPassword string =  'm@rkV!09'
 param virtualMachines_ms365entvm1_name string = 'ms365entvm1'
-param disks_ms365entvm1_OsDisk_1_b74a4fc838974739937149a2893c69c9_externalid string = '/subscriptions/6cfaa4da-a4b7-4bbe-91ba-2c23438b894c/resourceGroups/test-network-rg/providers/Microsoft.Compute/disks/ms365entvm1_OsDisk_1_b74a4fc838974739937149a2893c69c9'
-param networkInterfaces_ms365entvm1478_externalid string = '/subscriptions/6cfaa4da-a4b7-4bbe-91ba-2c23438b894c/resourceGroups/test-network-rg/providers/Microsoft.Network/networkInterfaces/ms365entvm1478'
+//param disks_ms365entvm1_OsDisk_1_b74a4fc838974739937149a2893c69c9_externalid string = '/subscriptions/6cfaa4da-a4b7-4bbe-91ba-2c23438b894c/resourceGroups/test-bicep-rg/providers/Microsoft.Compute/disks/ms365entvm1_OsDisk_1_b74a4fc838974739937149a2893c69c9'
+param networkInterfaces_ms365entvm1478_externalid string = '/subscriptions/6cfaa4da-a4b7-4bbe-91ba-2c23438b894c/resourceGroups/test-bicep-rg/providers/Microsoft.Network/networkInterfaces/ms365entvm1478'
 
 resource virtualMachines_ms365entvm1_name_resource 'Microsoft.Compute/virtualMachines@2023-03-01' = {
   name: virtualMachines_ms365entvm1_name
@@ -18,6 +19,7 @@ resource virtualMachines_ms365entvm1_name_resource 'Microsoft.Compute/virtualMac
     additionalCapabilities: {
       hibernationEnabled: false
     }
+    
     storageProfile: {
       imageReference: {
         publisher: 'MicrosoftWindowsServer'
@@ -32,7 +34,7 @@ resource virtualMachines_ms365entvm1_name_resource 'Microsoft.Compute/virtualMac
         caching: 'ReadWrite'
         managedDisk: {
           storageAccountType: 'Premium_LRS'
-          id: disks_ms365entvm1_OsDisk_1_b74a4fc838974739937149a2893c69c9_externalid
+          //id: disks_ms365entvm1_OsDisk_1_b74a4fc838974739937149a2893c69c9_externalid
         }
         deleteOption: 'Delete'
         diskSizeGB: 127
@@ -43,6 +45,7 @@ resource virtualMachines_ms365entvm1_name_resource 'Microsoft.Compute/virtualMac
     osProfile: {
       computerName: virtualMachines_ms365entvm1_name
       adminUsername: adminUsername
+      adminPassword: adminPassword
       windowsConfiguration: {
         provisionVMAgent: true
         enableAutomaticUpdates: true
@@ -59,7 +62,7 @@ resource virtualMachines_ms365entvm1_name_resource 'Microsoft.Compute/virtualMac
       }
       secrets: []
       allowExtensionOperations: true
-      requireGuestProvisionSignal: true
+      //requireGuestProvisionSignal: true
     }
     securityProfile: {
       uefiSettings: {

@@ -7,15 +7,15 @@
             "type": "String"
         },
         "publicIPAddresses_ms365entvm1_ip_externalid": {
-            "defaultValue": "/subscriptions/6cfaa4da-a4b7-4bbe-91ba-2c23438b894c/resourceGroups/test-network-rg/providers/Microsoft.Network/publicIPAddresses/ms365entvm1-ip",
+            "defaultValue": "/subscriptions/6cfaa4da-a4b7-4bbe-91ba-2c23438b894c/resourceGroups/test-bicep-rg/providers/Microsoft.Network/publicIPAddresses/ms365entvm1-ip",
             "type": "String"
         },
         "virtualNetworks_ms365entvnet1_externalid": {
-            "defaultValue": "/subscriptions/6cfaa4da-a4b7-4bbe-91ba-2c23438b894c/resourceGroups/test-network-rg/providers/Microsoft.Network/virtualNetworks/ms365entvnet1",
+            "defaultValue": "/subscriptions/6cfaa4da-a4b7-4bbe-91ba-2c23438b894c/resourceGroups/test-bicep-rg/providers/Microsoft.Network/virtualNetworks/ms365entvnet1",
             "type": "String"
         },
         "networkSecurityGroups_ms365entvm1_nsg_externalid": {
-            "defaultValue": "/subscriptions/6cfaa4da-a4b7-4bbe-91ba-2c23438b894c/resourceGroups/test-network-rg/providers/Microsoft.Network/networkSecurityGroups/ms365entvm1-nsg",
+            "defaultValue": "/subscriptions/6cfaa4da-a4b7-4bbe-91ba-2c23438b894c/resourceGroups/test-bicep-rg/providers/Microsoft.Network/networkSecurityGroups/ms365entvm1-nsg",
             "type": "String"
         }
     },

@@ -3,6 +3,7 @@ param location string = 'southeastasia'
 
 param virtualNetworks_ms365entvnet1_name string = 'ms365entvnet1'
 
+
 resource virtualNetworks_ms365entvnet1_name_resource 'Microsoft.Network/virtualNetworks@2023-06-01' = {
   name: virtualNetworks_ms365entvnet1_name
   location: location
