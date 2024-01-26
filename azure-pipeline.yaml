@@ -40,19 +40,12 @@ stages:
         continueOnError: true
         displayName: What-If Contoso Resources
         #dependsOn: DeployQAAKSCluster
-        pool:
-          vmImage: "ubuntu-latest"
         environment: $(CONTOSO_ENVIRONMENT)
         strategy:
           runOnce:
             deploy:
               steps:    
-                - task: PublishPipelineArtifact@1
-                  displayName: Pull from Artifacts
-                  inputs:
-                    targetPath: '$(System.ArtifactsDirectory)'
-                    artifact: 'drop'
-                    publishLocation: 'pipeline'
+
           
                 - task: AzureCLI@2
                   displayName: What-If Resources
