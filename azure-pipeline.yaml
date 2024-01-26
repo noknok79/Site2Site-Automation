@@ -23,13 +23,13 @@ stages:
         steps:
           - task: PublishPipelineArtifact@1
             inputs:
-              targetPath: "$(Build.ArtifactStagingDirectory)/contoso"
+              targetPath: "$$(System.DefaultWorkingDirectory)/contoso"
               artifact: "contoso-out"
               publishLocation: "pipeline"
 
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              PathtoPublish: '$(System.ArtifactsDirectory)'
               ArtifactName: 'drop'
               publishLocation: 'Container'
 
@@ -45,7 +45,11 @@ stages:
           runOnce:
             deploy:
               steps:    
-
+                - task: DownloadBuildArtifacts@0
+                  inputs:
+                    buildType: 'current'
+                    artifactName: 'drop'
+                    downloadPath: '$(System.ArtifactsDirectory)'
           
                 - task: AzureCLI@2
                   displayName: What-If Resources
@@ -66,7 +70,7 @@ stages:
                       az deployment group what-if --resource-group test-bicep-rg --template-file locgateway.bicep
                       az deployment group what-if --resource-group test-bicep-rg --template-file contosovirtnetgw.bicep
                       az deployment group what-if --resource-group test-bicep-rg --template-file s2s-connect-to-ms365ent.bicep
-                    workingDirectory: "$(Build.ArtifactStagingDirectory)/contoso-out"
+                    workingDirectory: "$(System.ArtifactsDirectory)/contoso-out"
 
                 - task: AzureCLI@2
                   displayName: Create Resources
@@ -87,4 +91,4 @@ stages:
                       az deployment group create --resource-group test-bicep-rg --template-file contosovirtnetgw.bicep
                       az deployment group create --resource-group test-bicep-rg --template-file contosovm1_OsDisk_1_8c2c78cabbab408fa190353d86b1fc56.bicep
                       az deployment group create --resource-group test-bicep-rg --template-file s2s-connect-to-ms365ent.bicep
-                    workingDirectory: "$(Build.ArtifactStagingDirectory)/contoso-out"
+                    workingDirectory: "$(System.ArtifactsDirectory)/contoso-out"
