@@ -47,8 +47,13 @@ stages:
           runOnce:
             deploy:
               steps:    
-
-
+                - task: PublishPipelineArtifact@1
+                  displayName: Pull from Artifacts
+                  inputs:
+                    targetPath: '$(System.ArtifactsDirectory)'
+                    artifact: 'drop'
+                    publishLocation: 'pipeline'
+          
                 - task: AzureCLI@2
                   displayName: What-If Resources
                   inputs:
@@ -68,7 +73,7 @@ stages:
                       az deployment group what-if --resource-group test-bicep-rg --template-file locgateway.bicep
                       az deployment group what-if --resource-group test-bicep-rg --template-file contosovirtnetgw.bicep
                       az deployment group what-if --resource-group test-bicep-rg --template-file s2s-connect-to-ms365ent.bicep
-                    workingDirectory: "$(System.DefaultWorkingDirectory)/contoso-out"
+                    workingDirectory: "$(System.ArtifactsDirectory)"
 
                 - task: AzureCLI@2
                   displayName: Create Resources
@@ -89,4 +94,4 @@ stages:
                       az deployment group create --resource-group test-bicep-rg --template-file contosovirtnetgw.bicep
                       az deployment group create --resource-group test-bicep-rg --template-file contosovm1_OsDisk_1_8c2c78cabbab408fa190353d86b1fc56.bicep
                       az deployment group create --resource-group test-bicep-rg --template-file s2s-connect-to-ms365ent.bicep
-                    workingDirectory: "$(System.DefaultWorkingDirectory)/contoso-out"
+                    workingDirectory: "$(System.ArtifactsDirectory)"
