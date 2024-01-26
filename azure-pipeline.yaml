@@ -16,6 +16,55 @@ variables:
     value: contoso
 
 stages:
+  - stage: MS365ENTResourcesPreparation
+    jobs:
+      - job: MS365ENTResources
+        pool:
+          vmImage: "ubuntu-latest"
+          environment: $(MS365ENT_ENVIRONMENT)
+        continueOnError: false
+        steps:
+          - task: PublishPipelineArtifact@1
+            
+            inputs:
+              targetPath: "$(System.DefaultWorkingDirectory)/ms365ent"
+              artifact: "ms365ent-out"
+              publishLocation: "pipeline"
+          
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: 'ms365ent-test-bicep-rg-connection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvnet1.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1-ip.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1-nsg.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file contosovm1-nsg.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1478.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvnet1-bastion-ip.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvnet1-Bastion.bicep
+              workingDirectory: '$(System.DefaultWorkingDirectory)/ms365ent'
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: 'ms365ent-test-bicep-rg-connection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvnet1.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvm1-ip.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvm1-nsg.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file contosovm1-nsg.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvm1478.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvm1.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvnet1-bastion-ip.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvnet1-Bastion.bicep
+              workingDirectory: '$(System.DefaultWorkingDirectory)/ms365ent'
+          
+
+
+
   - stage: CONTOSOResources
     jobs:
       - job: CONTOSOResources
@@ -74,49 +123,3 @@ stages:
               workingDirectory: "$(System.DefaultWorkingDirectory)/contoso"
 
 
-  - stage: MS365ENTResourcesPreparation
-    jobs:
-      - job: MS365ENTResources
-        pool:
-          vmImage: "ubuntu-latest"
-          environment: $(MS365ENT_ENVIRONMENT)
-        continueOnError: false
-        steps:
-          - task: PublishPipelineArtifact@1
-            
-            inputs:
-              targetPath: "$(System.DefaultWorkingDirectory)/ms365ent"
-              artifact: "ms365ent-out"
-              publishLocation: "pipeline"
-          
-          - task: AzureCLI@2
-            inputs:
-              azureSubscription: 'ms365ent-test-bicep-rg-connection'
-              scriptType: 'bash'
-              scriptLocation: 'inlineScript'
-              inlineScript: |
-                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvnet1.bicep
-                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1-ip.bicep
-                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1-nsg.bicep
-                az deployment group what-if --resource-group test-bicep-rg --template-file contosovm1-nsg.bicep
-                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1478.bicep
-                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1.bicep
-                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvnet1-bastion-ip.bicep
-                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvnet1-Bastion.bicep
-              workingDirectory: '$(System.DefaultWorkingDirectory)/ms365ent'
-          - task: AzureCLI@2
-            inputs:
-              azureSubscription: 'ms365ent-test-bicep-rg-connection'
-              scriptType: 'bash'
-              scriptLocation: 'inlineScript'
-              inlineScript: |
-                az deployment group create --resource-group test-bicep-rg --template-file ms365entvnet1.bicep
-                az deployment group create --resource-group test-bicep-rg --template-file ms365entvm1-ip.bicep
-                az deployment group create --resource-group test-bicep-rg --template-file ms365entvm1-nsg.bicep
-                az deployment group create --resource-group test-bicep-rg --template-file contosovm1-nsg.bicep
-                az deployment group create --resource-group test-bicep-rg --template-file ms365entvm1478.bicep
-                az deployment group create --resource-group test-bicep-rg --template-file ms365entvm1.bicep
-                az deployment group create --resource-group test-bicep-rg --template-file ms365entvnet1-bastion-ip.bicep
-                az deployment group create --resource-group test-bicep-rg --template-file ms365entvnet1-Bastion.bicep
-              workingDirectory: '$(System.DefaultWorkingDirectory)/ms365ent'
-          
