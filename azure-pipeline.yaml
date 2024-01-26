@@ -21,10 +21,11 @@ stages:
       - job: CONTOSOResources
         pool:
           vmImage: "ubuntu-latest"
+        environment: $(CONTOSO_ENVIRONMENT)
         continueOnError: false
         steps:
           - task: PublishPipelineArtifact@1
-            environment: $(CONTOSO_ENVIRONMENT)
+            
             inputs:
               targetPath: "$(System.DefaultWorkingDirectory)/contoso"
               artifact: "contoso-out"
@@ -78,10 +79,11 @@ stages:
       - job: CONTOSOResources
         pool:
           vmImage: "ubuntu-latest"
+        environment: $(MS365ENT_ENVIRONMENT)
         continueOnError: false
         steps:
           - task: PublishPipelineArtifact@1
-            environment: $(MS365ENT_ENVIRONMENT)
+            
             inputs:
               targetPath: "$(System.DefaultWorkingDirectory)/ms365ent"
               artifact: "ms365ent-out"
