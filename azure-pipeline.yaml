@@ -74,9 +74,9 @@ stages:
               workingDirectory: "$(System.DefaultWorkingDirectory)/contoso"
 
 
-  - stage: MS365ENTResources
+  - stage: MS365ENTResourcesPreparation
     jobs:
-      - job: CONTOSOResources
+      - job: MS365ENTResources
         pool:
           vmImage: "ubuntu-latest"
           environment: $(MS365ENT_ENVIRONMENT)
