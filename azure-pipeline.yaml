@@ -16,12 +16,15 @@ variables:
     value: contoso
 
 stages:
-  - stage: PublishArtifactsPipeline
+  - stage: CONTOSOResources
     jobs:
-      - job: PublishArtifactsPipeline
+      - job: CONTOSOResources
+        pool:
+          vmImage: "ubuntu-latest"
         continueOnError: false
         steps:
           - task: PublishPipelineArtifact@1
+            environment: $(CONTOSO_ENVIRONMENT)
             inputs:
               targetPath: "$(System.DefaultWorkingDirectory)/contoso"
               artifact: "contoso-out"
@@ -70,20 +73,48 @@ stages:
               workingDirectory: "$(System.DefaultWorkingDirectory)/contoso"
 
 
-  - stage: WhatIfContosoResources
+  - stage: MS365ENTResources
     jobs:
-      - deployment: WhatIfContosoResources
-        continueOnError: true
-        displayName: What-If Contoso Resources
-        #dependsOn: DeployQAAKSCluster
-        environment: $(CONTOSO_ENVIRONMENT)
-        strategy:
-          runOnce:
-            deploy:
-              steps:    
-                - task: DownloadBuildArtifacts@0
-                  inputs:
-                    buildType: 'current'
-                    artifactName: 'drop'
-                    downloadPath: '$(System.ArtifactsDirectory)'
+      - job: CONTOSOResources
+        pool:
+          vmImage: "ubuntu-latest"
+        continueOnError: false
+        steps:
+          - task: PublishPipelineArtifact@1
+            environment: $(MS365ENT_ENVIRONMENT)
+            inputs:
+              targetPath: "$(System.DefaultWorkingDirectory)/ms365ent"
+              artifact: "ms365ent-out"
+              publishLocation: "pipeline"
+          
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: 'ms365ent-test-bicep-rg-connection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvnet1.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1-ip.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1-nsg.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file contosovm1-nsg.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1478.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvnet1-bastion-ip.bicep
+                az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvnet1-Bastion.bicep
+              workingDirectory: '$(System.DefaultWorkingDirectory)/ms365ent'
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: 'ms365ent-test-bicep-rg-connection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvnet1.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvm1-ip.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvm1-nsg.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file contosovm1-nsg.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvm1478.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvm1.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvnet1-bastion-ip.bicep
+                az deployment group create --resource-group test-bicep-rg --template-file ms365entvnet1-Bastion.bicep
+              workingDirectory: '$(System.DefaultWorkingDirectory)/ms365ent'
           
