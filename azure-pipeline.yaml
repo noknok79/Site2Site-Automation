@@ -18,14 +18,14 @@ variables:
 stages:
   - stage: PublishArtifactsPipeline
     jobs:
-      - job: TerraformValidateJob
+      - job: PublishArtifactsPipeline
         continueOnError: false
         steps:
-        - task: PublishPipelineArtifact@1
-          inputs:
-            targetPath: "$(System.DefaultWorkingDirectory)/contoso"
-            artifact: "contoso-out"
-            publishLocation: "pipeline"
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: 'drop'
+              publishLocation: 'Container'
 
 
   - stage: WhatIfContosoResources
@@ -40,7 +40,13 @@ stages:
         strategy:
           runOnce:
             deploy:
-              steps:
+              steps:    
+                - task: PublishPipelineArtifact@1
+                  inputs:
+                    targetPath: "$(System.DefaultWorkingDirectory)/contoso"
+                    artifact: "contoso-out"
+                    publishLocation: "pipeline"
+
                 - task: AzureCLI@2
                   displayName: What-If Resources
                   inputs:
