@@ -21,7 +21,7 @@ stages:
       - job: CONTOSOResources
         pool:
           vmImage: "ubuntu-latest"
-        environment: $(CONTOSO_ENVIRONMENT)
+          environment: $(CONTOSO_ENVIRONMENT)
         continueOnError: false
         steps:
           - task: PublishPipelineArtifact@1
@@ -79,7 +79,7 @@ stages:
       - job: CONTOSOResources
         pool:
           vmImage: "ubuntu-latest"
-        environment: $(MS365ENT_ENVIRONMENT)
+          environment: $(MS365ENT_ENVIRONMENT)
         continueOnError: false
         steps:
           - task: PublishPipelineArtifact@1
