@@ -25,13 +25,14 @@ stages:
         continueOnError: false
         steps:
           - task: PublishPipelineArtifact@1
-            
+            displayName: Publish Files to Pipeline
             inputs:
               targetPath: "$(System.DefaultWorkingDirectory)/ms365ent"
               artifact: "ms365ent-out"
               publishLocation: "pipeline"
           
           - task: AzureCLI@2
+            displayName: What-If Check
             inputs:
               azureSubscription: 'ms365ent-test-bicep-rg-connection'
               scriptType: 'bash'
@@ -47,6 +48,7 @@ stages:
                 az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvnet1-Bastion.bicep
               workingDirectory: '$(System.DefaultWorkingDirectory)/ms365ent'
           - task: AzureCLI@2
+            displayName: Create resources in MS365ENT
             inputs:
               azureSubscription: 'ms365ent-test-bicep-rg-connection'
               scriptType: 'bash'
@@ -74,14 +76,14 @@ stages:
         continueOnError: false
         steps:
           - task: PublishPipelineArtifact@1
-            
+            displayName: Publish Files to Pipeline
             inputs:
               targetPath: "$(System.DefaultWorkingDirectory)/contoso"
               artifact: "contoso-out"
               publishLocation: "pipeline"
 
           - task: AzureCLI@2
-            displayName: What-If Resources
+            displayName: What-If Check
             inputs:
               azureSubscription: "contoso-test-bicep-rg-connection"
               scriptType: "bash"
@@ -102,7 +104,7 @@ stages:
               workingDirectory: "$(System.DefaultWorkingDirectory)/contoso"
 
           - task: AzureCLI@2
-            displayName: Create Resources
+            displayName: Create Resources in CONTOSO
             inputs:
               azureSubscription: "contoso-test-bicep-rg-connection"
               scriptType: "bash"
