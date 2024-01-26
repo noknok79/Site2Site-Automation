@@ -21,6 +21,12 @@ stages:
       - job: PublishArtifactsPipeline
         continueOnError: false
         steps:
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: "$(System.DefaultWorkingDirectory)/contoso"
+              artifact: "contoso-out"
+              publishLocation: "pipeline"
+
           - task: PublishBuildArtifacts@1
             inputs:
               PathtoPublish: '$(Build.ArtifactStagingDirectory)'
@@ -41,11 +47,7 @@ stages:
           runOnce:
             deploy:
               steps:    
-                - task: PublishPipelineArtifact@1
-                  inputs:
-                    targetPath: "$(System.DefaultWorkingDirectory)/contoso"
-                    artifact: "contoso-out"
-                    publishLocation: "pipeline"
+
 
                 - task: AzureCLI@2
                   displayName: What-If Resources
