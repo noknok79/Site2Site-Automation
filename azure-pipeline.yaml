@@ -23,8 +23,8 @@ stages:
         steps:
         - task: PublishPipelineArtifact@1
           inputs:
-            targetPath: "$(System.DefaultWorkingDirectory)/ms365ent"
-            artifact: "ms365ent-out"
+            targetPath: "$(System.DefaultWorkingDirectory)/contoso"
+            artifact: "contoso-out"
             publishLocation: "pipeline"
 
 
