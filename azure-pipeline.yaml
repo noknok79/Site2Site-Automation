@@ -41,7 +41,6 @@ stages:
                 az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvnet1.bicep
                 az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1-ip.bicep
                 az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1-nsg.bicep
-                az deployment group what-if --resource-group test-bicep-rg --template-file contosovm1-nsg.bicep
                 az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1478.bicep
                 az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvm1.bicep
                 az deployment group what-if --resource-group test-bicep-rg --template-file ms365entvnet1-bastion-ip.bicep
